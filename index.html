@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arabo Pro - App Completa</title>
+    <style>
+        :root { --primary: #1e3a8a; --accent: #2563eb; --bg: #f8fafc; --card-bg: #ffffff; --text: #334155; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); margin: 0; padding: 20px; color: var(--text); }
+        .container { max-width: 800px; margin: 0 auto; background: var(--card-bg); padding: 25px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        h1 { text-align: center; color: var(--primary); margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #64748b; font-size: 14px; margin-bottom: 25px; }
+        
+        .tabs { display: flex; justify-content: space-around; margin-bottom: 20px; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; flex-wrap: wrap; gap: 8px; }
+        .tab-btn { background: #f1f5f9; border: none; font-size: 14px; cursor: pointer; font-weight: 600; color: #475569; padding: 10px 14px; border-radius: 6px; transition: all 0.2s; }
+        .tab-btn.active { color: #ffffff; background-color: var(--accent); }
+        
+        .section { display: none; }
+        .section.active { display: block; }
+        
+        .card { background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; margin-bottom: 15px; border-radius: 8px; }
+        .arabic { font-size: 26px; font-weight: bold; color: var(--primary); direction: rtl; text-align: right; margin-bottom: 5px; }
+        
+        button.audio-btn { background: var(--accent); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; margin-top: 8px; font-size: 13px; font-weight: 500; }
+        button.audio-btn:hover { background: #1d4ed8; }
+        
+        .category-title { color: var(--primary); border-bottom: 2px solid #cbd5e1; padding-bottom: 5px; margin-top: 25px; margin-bottom: 15px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; margin-bottom: 15px; }
+        th, td { border: 1px solid #cbd5e1; padding: 10px; text-align: left; font-size: 14px; }
+        th { background-color: #e2e8f0; color: #0f172a; }
+        td.ar-cell { font-size: 20px; text-align: right; direction: rtl; font-weight: bold; color: var(--primary); }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        @media(max-width: 600px) { .grid-2 { grid-template-columns: 1fr; } }
+
+        .roleplay-box { background: #eff6ff; border: 1px solid #bfdbfe; padding: 18px; border-radius: 8px; margin-bottom: 20px; }
+        .rp-options { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
+        .rp-btn { background: white; border: 1px solid #93c5fd; padding: 10px; border-radius: 6px; text-align: left; cursor: pointer; font-size: 14px; transition: background 0.2s; }
+        .rp-btn:hover { background: #dbeafe; }
+        .feedback { margin-top: 10px; font-weight: bold; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Arabo Pro - Studio Completo</h1>
+    <div class="subtitle">Alfabeto, Vocabolario Avanzato, Verbi con Coniugazioni e Role-Play Integrati</div>
+    
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('verbs')">1. Verbi & Tempi</button>
+        <button class="tab-btn" onclick="switchTab('vocab')">2. Vocabolario Esteso</button>
+        <button class="tab-btn" onclick="switchTab('phrases')">3. Frasi per Contesti</button>
+        <button class="tab-btn" onclick="switchTab('roleplay')">4. Role-Play Guidati</button>
+    </div>
+
+    <!-- SEZIONE 1: VERBI E CONIUGAZIONI -->
+    <div id="verbs" class="section active">
+        <h2>Coniugazione dei Verbi</h2>
+        <p>In arabo i verbi derivano da una radice di 3 lettere. Qui trovi i verbi chiave coniugati al Passato, Presente e Futuro (forma maschile singolare: "Io / Lui").</p>
+        
+        <div id="verbs-container"></div>
+    </div>
+
+    <!-- SEZIONE 2: VOCABOLARIO ESTESO -->
+    <div id="vocab" class="section">
+        <h2>Vocabolario per Categorie Avanzate</h2>
+        
+        <h3 class="category-title">Lavoro e Studio</h3>
+        <div id="vocab-work" class="grid-2"></div>
+
+        <h3 class="category-title">Città e Trasporti</h3>
+        <div id="vocab-city" class="grid-2"></div>
+        
+        <h3 class="category-title">Tempo e Emozioni</h3>
+        <div id="vocab-time" class="grid-2"></div>
+    </div>
+
+    <!-- SEZIONE 3: FRASI UTILI PER CONTESTI -->
+    <div id="phrases" class="section">
+        <h2>Frasi Utili (Preparazione ai Role-Play)</h2>
+        <p>Studia queste frasi prima di affrontare le simulazioni interattive.</p>
+        
+        <h3 class="category-title">Contesto: Al Ristorante / Bar</h3>
+        <div id="phrases-restaurant"></div>
+
+        <h3 class="category-title">Contesto: Alla Stazione / Viaggi</h3>
+        <div id="phrases-station"></div>
+    </div>
+
+    <!-- SEZIONE 4: ROLE-PLAY GUIDATI -->
+    <div id="roleplay" class="section">
+        <h2>Simulazioni Role-Play</h2>
+        <p>Mettiti alla prova. Le frasi richieste utilizzano esattamente i vocaboli e i verbi studiati nelle sezioni precedenti!</p>
+        
+        <div class="roleplay-box">
+            <h3>Scenario 1: Al Ristorante (مطعم)</h3>
+            <p><strong>Cameriere:</strong> <span style="font-size:22px; direction:rtl; display:inline-block;">أهلاً بك! ماذا تطلب؟</span></p>
+            <p><em>(Ahlan bik! Mada tatlub? - Benvenuto! Cosa ordini?)</em></p>
+            <div class="rp-options">
+                <button class="rp-btn" onclick="checkRolePlay(1, true, 'Corretto! Hai usato il verbo ordinare/volere studiato.')">أنا أطلب قَهْوَة وَ خُبْز من فضلك (Io ordino un caffè e del pane per favore)</button>
+                <button class="rp-btn" onclick="checkRolePlay(1, false, 'Errato. Questa frase riguarda la stazione, non il ristorante.')">أنا أذهب إلى المحطة (Io vado alla stazione)</button>
+            </div>
+            <div id="feedback-1" class="feedback"></div>
+        </div>
+
+        <div class="roleplay-box">
+            <h3>Scenario 2: Alla Stazione (محطة)</h3>
+            <p><strong>Addetto ai biglietti:</strong> <span style="font-size:22px; direction:rtl; display:inline-block;">إالى أين أنت ذاهب؟</span></p>
+            <p><em>(Ila ayna anta thahib? - Dove stai andando?)</em></p>
+            <div class="rp-options">
+                <button class="rp-btn" onclick="checkRolePlay(2, true, 'Ottimo! Hai risposto correttamente indicando la destinazione.')">أنا أذهب إلى المدينة (Io vado in città)</button>
+                <button class="rp-btn" onclick="checkRolePlay(2, false, 'Errato. Questa frase parla di cibo.')">أنا أطلب طعاماً (Io ordino del cibo)</button>
+            </div>
+            <div id="feedback-2" class="feedback"></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Dati Verbi e Coniugazioni
+    const verbsData = [
+        {
+            verbIt: "Andare (ذهب - Thahaba)",
+            past: "ذَهَبَ (Thahaba - Egli è andato)",
+            pres: "يَذْهَبُ (Yathhabu - Egli va)",
+            fut: "سَيَذْهَبُ (Sayathhabu - Egli andrà)"
+        },
+        {
+            verbIt: "Scrivere (كَتَبَ - Kataba)",
+            past: "كَتَبَ (Kataba - Egli ha scritto)",
+            pres: "يَكْتُبُ (Yaktubu - Egli scrive)",
+            fut: "سَيَكْتُبُ (Sayaktubu - Egli scriverà)"
+        },
+        {
+            verbIt: "Volere / Richiedere (طَلَبَ - Talaba)",
+            past: "طَلَبَ (Talaba - Egli ha chiesto)",
+            pres: "يَطْلُبُ (Yatlubu - Egli chiede/vuole)",
+            fut: "سَيَطْلُبُ (Sayatlubu - Egli chiederà)"
+        }
+    ];
+
+    // Vocabolario Esteso per Categorie
+    const vocabWork = [
+        {ar: "عَمَل", tr: "'Amal", it: "Lavoro"},
+        {ar: "مَكْتَب", tr: "Maktab", it: "Ufficio / Scrivania"},
+        {ar: "شَرِكَة", tr: "Sharika", it: "Azienda"},
+        {ar: "مُوظَّف", tr: "Mowazzaf", it: "Impiegato"}
+    ];
+
+    const vocabCity = [
+        {ar: "مَدِينَة", tr: "Madina", it: "Città"},
+        {ar: "شَارِع", tr: "Shari'", it: "Strada / Via"},
+        {ar: "مَحَطَّة", tr: "Mahatta", it: "Stazione"},
+        {ar: "سَيَّارَة", tr: "Sayyara", it: "Auto"}
+    ];
+
+    const vocabTime = [
+        {ar: "اليَوْم", tr: "Al-yawm", it: "Oggi"},
+        {ar: "غَداً", tr: "Ghadan", it: "Domani"},
+        {ar: "سَعَادَة", tr: "Sa'ada", it: "Felicità"},
+        {ar: "وَقْت", tr: "Waqt", it: "Tempo"}
+    ];
+
+    // Frasi per Contesti
+    const phrasesRestaurant = [
+        {ar: "أنا أطلب قَهْوَة", tr: "Ana atlubu qahwa", it: "Io ordino un caffè"},
+        {ar: "أُريد خُبْز وَ مَاء", tr: "Uridu khubz wa ma'", it: "Voglio pane e acqua"},
+        {ar: "كَمْ الثَّمَن؟", tr: "Kam ath-thaman?", it: "Quant'è il prezzo?"}
+    ];
+
+    const phrasesStation = [
+        {ar: "أنا أذهب إلى المحطة", tr: "Ana athhabu ila al-mahatta", it: "Io vado alla stazione"},
+        {ar: "أين القطار؟", tr: "Ayna al-qitar?", it: "Dov'è il treno?"},
+        {ar: "متى يeصِل؟", tr: "Mata yasil?", it: "Quando arriva?"}
+    ];
+
+    window.onload = function() {
+        // Popola Verbi
+        let verbsHTML = "";
+        verbsData.forEach(v => {
+            verbsHTML += `<div class="card">
+                <h3>${v.verbIt}</h3>
+                <table>
+                    <tr><th>Passato</th><th>Presente</th><th>Futuro</th></tr>
+                    <tr>
+                        <td class="ar-cell">${v.past}</td>
+                        <td class="ar-cell">${v.pres}</td>
+                        <td class="ar-cell">${v.fut}</td>
+                    </tr>
+                </table>
+                <button class="audio-btn" onclick="speak('${v.pres}')">Ascolta Presente 🔊</button>
+            </div>`;
+        });
+        document.getElementById('verbs-container').innerHTML = verbsHTML;
+
+        // Popola Vocabolario
+        populateCards('vocab-work', vocabWork);
+        populateCards('vocab-city', vocabCity);
+        populateCards('vocab-time', vocabTime);
+
+        // Popola Frasi
+        populateCards('phrases-restaurant', phrasesRestaurant);
+        populateCards('phrases-station', phrasesStation);
+    };
+
+    function populateCards(containerId, dataArray) {
+        let html = "";
+        dataArray.forEach(item => {
+            html += `<div class="card">
+                <div class="arabic">${item.ar}</div>
+                <p><strong>Traslitterazione:</strong> ${item.tr}</p>
+                <p><strong>Traduzione:</strong> ${item.it}</p>
+                <button class="audio-btn" onclick="speak('${item.ar}')">Ascolta 🔊</button>
+            </div>`;
+        });
+        document.getElementById(containerId).innerHTML = html;
+    }
+
+    function switchTab(tabId) {
+        document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    function speak(text) {
+        if ('speechSynthesis' in window) {
+            let utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ar-SA';
+            window.speechSynthesis.speak(utterance);
+        } else {
+            alert("Sintesi vocale non supportata dal browser.");
+        }
+    }
+
+    function checkRolePlay(scenarioId, isCorrect, msg) {
+        let feedbackEl = document.getElementById('feedback-' + scenarioId);
+        if (isCorrect) {
+            feedbackEl.style.color = "#16a34a";
+            feedbackEl.innerHTML = "🎉 " + msg;
+        } else {
+            feedbackEl.style.color = "#dc2626";
+            feedbackEl.innerHTML = "❌ " + msg;
+        }
+    }
+</script>
+
+</body>
+</html>
